@@ -5,10 +5,7 @@ public class PersonImpl implements Person {
 	private String name;
 	
 	public PersonImpl(String name) throws IllegalArgumentException {
-		if (name.isEmpty()) {
-			throw new IllegalArgumentException("Name cannot be empty!");
-		}
-		this.name = name;
+		setName(name);
 	}
 	
 	@Override
@@ -30,8 +27,10 @@ public class PersonImpl implements Person {
 
 	@Override
 	public void setName(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-
+		if (name.isEmpty()) {
+			throw new IllegalArgumentException("Name cannot be empty!");
+		}
+		this.name = name;
 	}
 
 	@Override
