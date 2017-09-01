@@ -2,16 +2,17 @@ package dk.magenta.tdd.workshop;
 
 public class PersonImpl implements Person {
 
+	private String cpr;
 	private String name;
 	
-	public PersonImpl(String name) throws IllegalArgumentException {
+	public PersonImpl(String name, String cpr) throws IllegalArgumentException {
 		setName(name);
+		this.cpr = cpr;
 	}
 	
 	@Override
 	public String getCprNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return cpr;
 	}
 
 	@Override
