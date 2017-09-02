@@ -1,6 +1,7 @@
 package dk.magenta.tdd.workshop;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -74,6 +73,8 @@ public class TestPerson {
 		assertEquals("010117-1112", person2.getCprNumber());
 	}
 
+	// Testing getAddress (with mocks)
+	
 	@Test
 	public void shouldReturnAddr1WhenCprIs010117_1111() {
 		when(addressHandlerStrategy.fetchAddressFromServer("010117-1111")).thenReturn("Addr1");
@@ -84,6 +85,43 @@ public class TestPerson {
 	public void shouldReturnAddr2WhenCprIs010117_1112() {
 		when(addressHandlerStrategy.fetchAddressFromServer("010117-1112")).thenReturn("Addr2");
 		assertEquals("Addr2", person2.getAddress());
+	}
+	
+	// Testing isCprNumberValid
+	
+	@Test
+	public void shouldReturnTrueWhenCprIs010117_1111() {
+		assertTrue(person1.isCprNumberValid());
+	}
+
+	@Test
+	public void shouldReturnFalseeWhenCprIs400117_1111() {
+		Person person = new PersonImpl("name", "400117-1111");
+		assertFalse(person.isCprNumberValid());
+	}
+
+	@Test
+	public void shouldReturnFalseeWhenCprIs012117_1111() {
+		Person person = new PersonImpl("name", "012117-1111");
+		assertFalse(person.isCprNumberValid());
+	}
+
+	@Test
+	public void shouldReturnFalseeWhenCprIs010117x_1111() {
+		Person person = new PersonImpl("name", "010117x-1111");
+		assertFalse(person.isCprNumberValid());
+	}
+
+	@Test
+	public void shouldReturnFalseeWhenCprIs010117_xxxx() {
+		Person person = new PersonImpl("name", "010117-xxxx");
+		assertFalse(person.isCprNumberValid());
+	}
+
+	@Test
+	public void shouldReturnFalseeWhenCprIs010117_11111() {
+		Person person = new PersonImpl("name", "010117-11111");
+		assertFalse(person.isCprNumberValid());
 	}
 	
 }

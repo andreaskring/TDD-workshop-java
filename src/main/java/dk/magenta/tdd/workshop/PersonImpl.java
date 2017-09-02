@@ -1,5 +1,7 @@
 package dk.magenta.tdd.workshop;
 
+import java.util.regex.Pattern;
+
 public class PersonImpl implements Person {
 
 	private String cpr;
@@ -24,8 +26,7 @@ public class PersonImpl implements Person {
 
 	@Override
 	public boolean isCprNumberValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return Pattern.matches("[0-3][0-9][0-1][0-9]{3}?-[0-9]{4}?", cpr);
 	}
 
 	@Override
