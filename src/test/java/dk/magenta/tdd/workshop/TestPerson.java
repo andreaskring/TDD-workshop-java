@@ -4,16 +4,26 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Mockito.*;
+import org.mockito.runners.MockitoJUnitRunner;
+
+@RunWith(MockitoJUnitRunner.class)
 public class TestPerson {
 
-	private Person person1;
-	private Person person2;
+	@InjectMocks private Person person1 = new PersonImpl("Clint", "010117-1111");
+	@InjectMocks private Person person2 = new PersonImpl("Bruce", "010117-1112");
+	
+	@Mock
+	private AddressHandlerStrategy addressHandlerStrategy;
 	
 	@Before
 	public void setUp() {
-		person1 = new PersonImpl("Clint", "010117-1111");
-		person2 = new PersonImpl("Bruce", "010117-1112");		
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	// Testing getName
@@ -64,4 +74,16 @@ public class TestPerson {
 		assertEquals("010117-1112", person2.getCprNumber());
 	}
 
+	@Test
+	public void shouldReturnAddr1WhenCprIs010117_1111() {
+		when(addressHandlerStrategy.fetchAddressFromServer("010117-1111")).thenReturn("Addr1");
+		assertEquals("Addr1", person1.getAddress());
+	}
+	
+	@Test
+	public void shouldReturnAddr2WhenCprIs010117_1112() {
+		when(addressHandlerStrategy.fetchAddressFromServer("010117-1112")).thenReturn("Addr2");
+		assertEquals("Addr2", person2.getAddress());
+	}
+	
 }

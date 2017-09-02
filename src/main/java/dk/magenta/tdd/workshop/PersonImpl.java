@@ -4,10 +4,12 @@ public class PersonImpl implements Person {
 
 	private String cpr;
 	private String name;
+	private AddressHandlerStrategy addressHandlerStrategy;
 	
 	public PersonImpl(String name, String cpr) throws IllegalArgumentException {
 		setName(name);
 		this.cpr = cpr;
+		addressHandlerStrategy = null;
 	}
 	
 	@Override
@@ -36,8 +38,7 @@ public class PersonImpl implements Person {
 
 	@Override
 	public String getAddress() {
-		// TODO Auto-generated method stub
-		return null;
+		return addressHandlerStrategy.fetchAddressFromServer(cpr);
 	}
 
 }
